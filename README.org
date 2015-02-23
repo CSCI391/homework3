@@ -1,0 +1,281 @@
+#+OPTIONS: H:3 
+#+OPTIONS: tex:dvipng
+#+OPTIONS: toc:nil 
+#+STARTUP: align oddeven lognotestate
+#+SEQ_TODO: TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n) export(e)
+#+Date:  
+#+TITLE: Hw3: More practice
+#+AUTHOR: Evan Misshula\\ \texttt{Criminal Justice, CUNY Graduate Center}
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+
+
+#+LATEX_HEADER: \usepackage{attrib}
+#+LATEX_HEADER: \usepackage{amsmath}
+#+LATEX_HEADER: \let\iint\undefined 
+#+LATEX_HEADER: \let\iiint\undefined 
+#+LATEX_HEADER: \usepackage{dsfont}
+#+LATEX_HEADER: \usepackage[autostyle]{csquotes}
+#+LATEX_HEADER: \usepackage[backend=biber,style=authoryear-icomp,sortlocale=de_DE,natbib=true,url=false, doi=true,eprint=false]{biblatex}
+#+LATEX_HEADER: \addbibresource{mybib.bib}
+#+LATEX_HEADER: \addbibresource{/Users/emisshula/research/citations/refs.bib} 
+#+LATEX_HEADER: \usepackage[retainorgcmds]{IEEEtrantools}
+#+LATEX_HEADER: \author{Misshula, Evan\\ \texttt{Criminal Justice, CUNY Graduate Center}}
+#+LATEX_HEADER: \title{Demonstration Of Instrumental Variables And Control Function Methods}
+# \bibliography{mybib.bib,/Users/emisshula/research/citations/refs.bib} 
+
+* Joins
+
+1. How many rows would a two-table join produce if one table had
+   50,000 rows and the other had 100,000?
+
+2. What type of join appears in the following select statement?
+#+BEGIN_SRC sql :exports code
+ select e.name, e.employee_id, ep.salary
+ from employee_tbl e,
+      employee_pay_tbl ep
+ where e.employee_id = ep.employee_id;
+#+END_SRC
+
+3. Will the following SELECT statements work?
+
+#+BEGIN_SRC sql :exports code
+              select name, employee_id, salary
+              from employee_tbl e,
+                   employee_pay_tbl ep
+              where employee_id = employee_id
+                and name like '%MITH';
+#+END_SRC
+
+#+BEGIN_SRC sql :exports code
+                 select e.name, e.employee_id, ep.salary
+                 from employee_tbl e,
+                      employee_pay_tbl ep
+                 where name like '%MITH';
+#+END_SRC
+
+#+BEGIN_SRC sql :exports code
+                  select e.name, e.employee_id, ep.salary
+                  from employee_tbl e,
+                       employee_pay_tbl ep
+                  where e.employee_id = ep.employee_id
+                   and e.name like '%MITH';
+#+END_SRC
+
+4. In the WHERE clause, when joining the tables, should you do the join first or the conditions?
+
+
+
+5. In joining tables are you limited to one-column joins, or can you join on more than one column?
+
+6. Rewrite the following query to make it more readable and shorter.
+
+#+BEGIN_SRC sql :exports code
+      select orders.orderedon, orders.name, part.partnum,
+               part.price, part.description from orders, part
+               where orders.partnum = part.partnum and orders.orderedon
+              between '1-SEP-96' and '30-SEP-96'
+              order by part.partnum;
+#+END_SRC
+
+
+* SUBQUERIES: The Embedded SELECT Statement
+
+7. Are the following statements true or false?
+
+- The aggregate functions SUM, COUNT, MIN, MAX, and AVG all return multiple values.
+
+- The maximum number of subqueries that can be nested is two.
+
+- Correlated subqueries are completely self-contained.
+
+
+8. Will the following subqueries work using the ORDERS table and the PART table?
+
+#+BEGIN_SRC sql :exports code
+ SELECT *
+   FROM PART;
+#+END_SRC
+
+   
+| PARTNUM | DESCRIPTION   |   PRICE |
+|---------+---------------+---------|
+|      54 | PEDALS        |   54.25 |
+|      42 | SEATS         |   24.50 |
+|      46 | TIRES         |   15.25 |
+|      23 | MOUNTAIN BIKE |  350.45 |
+|      76 | ROAD BIKE     |  530.00 |
+|      10 | TANDEM        | 1200.00 |
+
+#+BEGIN_SRC sql :exports code
+          SELECT *
+           FROM ORDERS;
+#+END_SRC
+
+| ORDEREDON | NAME       | PARTNUM | QUANITY | REMARKS |
+|-----------+------------+---------+---------+---------|
+| 15-MAY-96 | TRUE WHEEL |      23 |       6 | PAID    |
+| 19-MAY-96 | TRUE WHEEL |      76 |       3 | PAID    |
+| 2-SEP-96  | TRUE WHEEL |      10 |       1 | PAID    |
+| 30-JUN-96 | BIKE SPEC  |      54 |      10 | PAID    |
+| 30-MAY-96 | BIKE SPEC  |      10 |       2 | PAID    |
+| 30-MAY-96 | BIKE SPEC  |      23 |       8 | PAID    |
+| 17-JAN-96 | BIKE SPEC  |      76 |      11 | PAID    |
+| 17-JAN-96 | LE SHOPPE  |      76 |       5 | PAID    |
+| 1-JUN-96  | LE SHOPPE  |      10 |       3 | PAID    |
+| 1-JUN-96  | AAA BIKE   |      10 |       1 | PAID    |
+| 1-JUN-96  | AAA BIKE   |      76 |       4 | PAID    |
+| 1-JUN-96  | AAA BIKE   |      46 |      14 | PAID    |
+| 11-JUL-96 | JACKS BIKE |      76 |      14 | PAID    |
+
+- a.
+
+#+BEGIN_SRC sql :exports code
+SELECT * FROM ORDERS
+WHERE PARTNUM =
+SELECT PARTNUM FROM PART
+WHERE DESCRIPTION = 'TRUE WHEEL';
+#+END_SRC
+
+- b.
+
+#+BEGIN_SRC sql :exports code
+SELECT PARTNUM
+FROM ORDERS
+WHERE PARTNUM =
+(SELECT * FROM PART
+WHERE DESCRIPTION = 'LE SHOPPE');
+#+END_SRC
+
+- c. 
+
+#+BEGIN_SRC sql :exports code
+SELECT NAME, PARTNUM
+FROM ORDERS
+WHERE EXISTS
+(SELECT * FROM ORDERS
+WHERE NAME = 'TRUE WHEEL');
+#+END_SRC
+
+
+* Manipulating Data
+
+9. What is wrong with the following statement?
+
+#+BEGIN_SRC sql :exports code
+DELETE COLLECTION;
+#+END_SRC
+
+10. What is wrong with the following statement?
+#+BEGIN_SRC sql :exports code
+INSERT INTO COLLECTION SELECT * FROM TABLE_2 
+#+END_SRC
+
+11. What is wrong with the following statement?
+#+BEGIN_SRC sql :exports code
+UPDATE COLLECTION ("HONUS WAGNER CARD", 25000, "FOUND IT");
+#+END_SRC
+
+12. What would happen if you issued the following statement?
+
+#+BEGIN_SRC sql :exports code
+DELETE * FROM COLLECTION;
+#+end_src
+
+13. What would happen if you issued the following statement?
+
+#+BEGIN_SRC sql :exports code
+UPDATE COLLECTION
+     SET WORTH = 555
+     SET REMARKS = 'UP FROM 525';
+#+end_src
+
+14. Will the following SQL statement work?
+
+#+BEGIN_SRC sql :exports code
+ INSERT INTO COLLECTION
+     SET VALUES = 900
+     WHERE ITEM = 'STRING';
+#+end_src
+
+15. Will the following SQL statement work?
+
+#+BEGIN_SRC sql :exports code
+     UPDATE COLLECTION
+     SET VALUES = 900
+     WHERE ITEM = 'STRING';
+#+end_src
+
+
+16. Try inserting values with incorrect data types into a table. Note
+   the errors and then insert values with correct data types into the
+   same table.
+
+
+17. Using your database system, try exporting a table (or an entire
+   database) to some other format. Then import the data back into your
+   database. Familiarize yourself with this capability. Also, export
+   the tables to another database format if your DBMS supports this
+   feature. Then use the other system to open these files and examine
+   them.
+
+* Creating and Maintaining Tables
+
+18. *True or False:* The ALTER DATABASE statement is often used to
+   modify an existing table's structure.
+
+19. *True or False:* The DROP TABLE command is functionally equivalent
+   to the DELETE FROM <table_name> command.
+
+20. *True or False:* To add a new table to a database, use the CREATE TABLE command.
+
+21. What is wrong with the following statement?
+#+BEGIN_SRC sql :exports code
+CREATE TABLE new_table (
+ID NUMBER,
+FIELD1 char(40),
+FIELD2 char(80),
+ID char(40);
+#+END_SRC
+
+22. What is wrong with the following statement?
+
+#+BEGIN_SRC sql :exports code
+ALTER DATABASE BILLS (
+COMPANY char(80));
+#+END_SRC
+
+
+23. When a table is created, who is the owner?
+
+
+
+24. If data in a character column has varying lengths, what is the best choice for the data type?
+
+25. Add two tables to the BILLS database named BANK and ACCOUNT_TYPE
+    using any format you like. The BANK table should contain
+    information about the BANK field used in the BANK_ACCOUNTS table
+    in the examples. The ACCOUNT_TYPE table should contain information
+    about the ACCOUNT_TYPE field in the BANK_ACCOUNTS table also. Try
+    to reduce the data as much as possible.
+
+
+You should use the CREATE TABLE command to make the tables. Possible
+SQL statements would look like this:
+
+#+BEGIN_SRC sql :exports code
+           CREATE TABLE BANK
+             ( ACCOUNT_ID    NUMBER(30)    NOT NULL,
+               BANK_NAME     VARCHAR2(30)  NOT NULL,
+               ST_ADDRESS    VARCHAR2(30)  NOT NULL,
+               CITY          VARCHAR2(15)  NOT NULL,
+               STATE         CHAR(2)       NOT NULL,
+               ZIP           NUMBER(5)     NOT NULL;
+
+            CREATE TABLE ACCOUNT_TYPE
+             ( ACCOUNT_ID   NUMBER(30)    NOT NULL,
+               SAVINGS      CHAR(30),
+               CHECKING     CHAR(30);
+#+END_SRC
+
