@@ -1,0 +1,305 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1344\cocoasubrtf720
+{\fonttbl\f0\froman\fcharset0 TimesNewRomanPSMT;}
+{\colortbl;\red255\green255\blue255;\red38\green38\blue38;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\ri0
+
+\f0\b\fs24 \cf0  Q: How many rows would a two-table join produce if one table had 50,000 rows and the other had 100,000? \
+\pard\pardeftab720\ri0
+
+\b0 \cf0  \
+A: -> It will have 5,000,000,000 rows because you would need multiple 50,000 with 100,000.\
+\pard\pardeftab720\li720\ri0
+\cf0 \
+\
+\pard\pardeftab720\ri0
+
+\b \cf0 Q: What type of join appears in the following select statement?\
+select e.name, e.employee_id, ep.salary from employee_tbl e, employee_pay_tbl ep where e.employee_id = ep.employee_id;\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 \
+A: ->There is no type of join present because none has been stated nor was correct syntax used to join anything.\
+\pard\pardeftab720\li720\ri0
+\cf0 \
+\pard\pardeftab720\ri0
+
+\b \cf0 Q: Will the following SELECT statements work?\
+\pard\pardeftab720\li720\ri0
+
+\b0 \cf0 \
+\pard\pardeftab720\ri0
+
+\b \cf0 select name, employee_id, salary from employee_tbl e, employee_pay_tbl ep where employee_id = employee_id and name like '%MITH';\
+\
+select e.name, e.employee_id, ep.salary from employee_tbl e, employee_pay_tbl ep where name like '%MITH';\
+\pard\pardeftab720\li720\ri0
+\cf0 \
+\pard\pardeftab720\ri0
+\cf0 select e.name, e.employee_id, ep.salary from employee_tbl e, employee_pay_tbl ep where e.employee_id = ep.employee_id and e.name like '%MITH';\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 \
+A: -> Yes the following select statements will work because the tables are being specified throughout the command line. The first command line is different, but assuming the tables are already joined, it will output the same thing. \
+\pard\pardeftab720\li720\ri0
+\cf0 \
+\pard\pardeftab720\ri0
+\cf0 \
+\pard\pardeftab720\ri0
+
+\b \cf0 Q: In the WHERE clause, when joining the tables, should you do the join first or the conditions?\
+\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 A: -> The join comes before the condition. \
+\pard\pardeftab720\li720\ri0
+\cf0 \
+\pard\pardeftab720\ri0
+
+\b \cf0 Q: In joining tables are you limited to one-column joins, or can you join on more than one column?\
+\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 A:-> You can join more than one column. \
+\pard\pardeftab720\li720\ri0
+\cf0 \
+\pard\pardeftab720\ri0
+
+\b \cf0 Q: Rewrite the following query to make it more readable and shorter.\
+select orders.orderedon, orders.name, part.partnum, part.price, part.description from orders, part where orders.partnum = part.partnum and orders.orderedon between '1-SEP-96' and '30-SEP-96' order by part.partnum;\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 \
+A: ->SELECT * From orders, where orders.partnum = part.partnum and orders.orderedon between '1-SEP-96' and '30-SEP-96' order by part.partnum;\
+\pard\pardeftab720\ri0
+
+\b \cf0 \
+\pard\pardeftab720\ri0
+\cf0 \ul \ulc0 SUBQUERIES: The Embedded SELECT Statement:\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 \ulnone \
+\pard\pardeftab720\ri0
+
+\b \cf0 Q: Are the following statements true or false?\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 \
+\pard\pardeftab720\ri0
+
+\b \cf0 Q: The aggregate functions SUM, COUNT, MIN, MAX, and AVG all return multiple values.\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 \
+A: -> False \
+\
+\pard\pardeftab720\ri0
+
+\b \cf0 Q: The maximum number of subqueries that can be nested is two.\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 \
+A: -> False\
+\
+\pard\pardeftab720\ri0
+
+\b \cf0 Q: Correlated subqueries are completely self-contained.\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 A: -> False \
+\
+\pard\pardeftab720\ri0
+
+\b \cf0 Q: Will the following subqueries work using the ORDERS table and the PART table?\
+SELECT * FROM PART;\
+\pard\tx220\tx720\pardeftab720\ri0
+\cf2 \
+Q: a.\uc0\u8232 SELECT * FROM ORDERS WHERE PARTNUM = SELECT PARTNUM FROM PART WHERE DESCRIPTION = 'TRUE WHEEL';\
+\pard\tx220\tx720\pardeftab720\ri0
+
+\b0 \cf2 \
+A: -> This will work. \
+\pard\tx220\tx720\pardeftab720\ri0
+
+\b \cf2 \
+Q: b.\uc0\u8232 SELECT PARTNUM FROM ORDERS WHERE PARTNUM = (SELECT * FROM PART WHERE DESCRIPTION = 'LE SHOPPE');\
+\
+\pard\tx220\tx720\pardeftab720\ri0
+
+\b0 \cf2 A: ->  This will not work because in Part there is not description that is equal to \'91Le Shoppe\'94. \
+\
+\pard\pardeftab720\ri0
+
+\b \cf2 Q: c.\uc0\u8232 SELECT NAME, PARTNUM FROM ORDERS WHERE EXISTS (SELECT * FROM ORDERS WHERE NAME = 'TRUE WHEEL');\
+\
+\pard\pardeftab720\ri0
+
+\b0 \cf2 A: -> This will work. \
+\pard\pardeftab720\ri0
+\cf0 \
+\pard\pardeftab720\ri0
+
+\b \cf0 \ul \ulc0 Manipulating Data\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 \ulnone \
+\pard\pardeftab720\ri0
+
+\b \cf0 Q: What is wrong with the following statement?\
+DELETE COLLECTION;\
+\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 A: -> It is missing the FROM to specify where \'93collection\'94 collection should be deleted. \
+\
+\pard\pardeftab720\ri0
+
+\b \cf0 Q: What is wrong with the following statement?\
+INSERT INTO COLLECTION SELECT * FROM TABLE_2\
+\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 A: -> The problem is that, 
+\b insert 
+\b0 and 
+\b into
+\b0  should not be directly after each other. It should have been written more like 
+\b insert
+\b0  followed by the object, 
+\b into
+\b0  place 
+\b from 
+\b0 table. \
+\
+\pard\pardeftab720\ri0
+
+\b \cf0 \
+Q: What is wrong with the following statement?\
+UPDATE COLLECTION ("HONUS WAGNER CARD", 25000, "FOUND IT");\
+\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 A: -> The 
+\b update function
+\b0  is not being used correctly. The 
+\b update function
+\b0  should have been followed by maybe a \'93
+\b set statement\'94 
+\b0 with an arithmetic function and the places that you want that change to take place. \
+\
+\pard\pardeftab720\ri0
+
+\b \cf0 Q: What would happen if you issued the following statement?\
+DELETE * FROM COLLECTION;\
+\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 A: -> Assuming COLLECTION is the table, you will lose all of its contents. \
+\
+\pard\pardeftab720\ri0
+
+\b \cf0 Q: What would happen if you issued the following statement?\
+UPDATE COLLECTION SET WORTH = 555 SET REMARKS = 'UP FROM 525';\
+\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 A: -> It will search for \'93worth\'94 in COLLECTION and set it to \'93555\'94. It might error because the second set is not needed, it should have been 
+\b \'93UPDATE COLLECTION SET WORTH= 555, REMARKS= \'91UP FROM 525\'92\'94
+\b0 ; that is the correct syntax. \
+\
+\pard\pardeftab720\ri0
+
+\b \cf0 Q: Will the following SQL statement work?\
+INSERT INTO COLLECTION SET VALUES = 900 WHERE ITEM = 'STRING';\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 \
+A: -> No this will not work, the correct syntax is \'93INSERT SET VALUES=900 INTO COLLECTION WHERE ITEM=\'92STRING\'92\'94;\
+\
+\pard\pardeftab720\ri0
+
+\b \cf0 Q: Will the following SQL statement work?\
+UPDATE COLLECTION SET VALUES = 900 WHERE ITEM = 'STRING';\
+\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 A: ->Yes the statement will work.\
+\pard\pardeftab720\ri0
+
+\b \cf0 \
+Q: Try inserting values with incorrect data types into a table. Note the errors and then insert values with correct data types into the same table.\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 \
+\pard\tx220\tx720\pardeftab720\ri0
+\cf0 A: -> \'93I\cf2 ncorrect subquery column\'94 and \'93Data type mismatch in predicates were the error messages\'94. \
+\pard\pardeftab720\ri0
+\cf0 \
+\pard\pardeftab720\ri0
+
+\b \cf0 \ul \ulc0 Creating and Maintaining Tables:\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 \ulnone \
+\pard\pardeftab720\ri0
+
+\b \cf0 Q: True or False: The ALTER DATABASE statement is often used to modify an existing table's structure.\
+\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 A: -> True: \'93Modifies a database, or the files and filegroups associated with the database. Adds or removes files and filegroups from a database, changes the attributes of a database or its files and filegroups, changes the database collation, and sets database options.\'94 (https://msdn.microsoft.com/en-us/library/ms174269.aspx)\
+\
+\pard\pardeftab720\ri0
+
+\b \cf0 Q: True or False: The DROP TABLE command is functionally equivalent to the DELETE FROM  \
+name> command.\
+\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 A: -> The DROP TABLE command is used to delete a table. So FALSE  it is not equivalent to \'93DELETE FROM name>command\'94\
+\pard\pardeftab720\ri0
+
+\b \cf0 \
+Q: True or False: To add a new table to a database, use the CREATE TABLE command.\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 \
+A: -> True. \
+\
+\pard\pardeftab720\ri0
+
+\b \cf0 Q: What is wrong with the following statement?\
+CREATE TABLE new_table ( ID NUMBER, FIELD1 char(40), FIELD2 char(80), ID char(40);\
+\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 A: -> The issue with the table is: 1). There is not size for ID NUMBER. 2). After the size of ID there is not closing parenthesis. \
+\
+\
+\pard\pardeftab720\ri0
+
+\b \cf0 Q: What is wrong with the following statement?\
+ALTER DATABASE BILLS (COMPANY char(80));\
+\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 A: -> 1). It is missing braces around \'93Bills\'94 should be more of something like this \'93\{Bills | current\}\'94 the in another brace \{\} you add what you are changing. \
+\
+\pard\pardeftab720\ri0
+
+\b \cf0 Q: When a table is created, who is the owner?\
+\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 A: -> The owner is the name of the user ID that owns the new table. Owners must be existing user ID\'92s in the database specified by database_name\
+\
+\pard\pardeftab720\ri0
+
+\b \cf0 Q: If data in a character column has varying lengths, what is the best choice for the data type?\
+\
+\pard\pardeftab720\ri0
+
+\b0 \cf0 A: -> VARCHAR(n)\
+\
+}
