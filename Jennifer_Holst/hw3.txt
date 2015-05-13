@@ -1,0 +1,212 @@
+Joins
+
+    How many rows would a two-table join produce if one table had 50,000 rows and the other had 100,000?
+
+	 50,000 x 100,000 = 5,000,000,000
+
+
+    What type of join appears in the following select statement?
+
+    select e.name, e.employee_id, ep.salary from employee_tbl e, employee_pay_tbl ep where e.employee_id = ep.employee_id;
+
+	inner join
+
+    Will the following SELECT statements work?
+
+    select name, employee_id, salary from employee_tbl e, employee_pay_tbl ep where employee_id = employee_id and name like '%MITH'; 
+	
+	NO
+
+    select e.name, e.employee_id, ep.salary from employee_tbl e, employee_pay_tbl ep where name like '%MITH'; 
+
+	NO
+
+    select e.name, e.employee_id, ep.salary from employee_tbl e, employee_pay_tbl ep where e.employee_id = ep.employee_id and e.name like '%MITH'; 
+
+	YES
+	
+    In the WHERE clause, when joining the tables, should you do the join first or the conditions?
+
+	With a WHERE clause, the join is done first, then the condition.
+
+    In joining tables are you limited to one-column joins, or can you join on more than one column?
+
+	Tables can be joined on more than one column.
+
+    Rewrite the following query to make it more readable and shorter.
+
+    select orders.orderedon, orders.name, part.partnum, part.price, part.description from orders, part 
+	where orders.partnum = part.partnum and orders.orderedon between '1-SEP-96' and '30-SEP-96' order by part.partnum;
+
+	SELECT o.orderedon, o.name, p.partnum, p.price, p.description
+		FROM orders o, part p
+		WHERE o.partnum = p.partnum
+		AND o.orderedon BETWEEN '1-SEP-96' AND '30-SEP-96'
+		ORDER BY p.partnum
+
+
+SUBQUERIES: The Embedded SELECT Statement
+
+    Are the following statements true or false?
+
+    The aggregate functions SUM, COUNT, MIN, MAX, and AVG all return multiple values. 
+
+	FALSE
+
+    The maximum number of subqueries that can be nested is two.
+
+	FALSE
+
+    Correlated subqueries are completely self-contained.
+
+	FALSE
+
+
+    Will the following subqueries work using the ORDERS table and the PART table?
+
+    SELECT * FROM PART;
+
+PARTNUM 	DESCRIPTION 	PRICE
+54 	PEDALS 	54.25 
+42 	SEATS 	24.50
+46 	TIRES 	15.25
+23 	MOUNTAIN BIKE 	350.45
+76 	ROAD BIKE 	530.00
+10 	TANDEM 	1200.00
+
+SELECT *
+ FROM ORDERS;
+
+ORDEREDON 	NAME 	PARTNUM 	QUANITY 	REMARKS
+15-MAY-96 	TRUE WHEEL 	23 	6 	PAID
+19-MAY-96 	TRUE WHEEL 	76 	3 	PAID
+2-SEP-96 	TRUE WHEEL 	10 	1 	PAID
+30-JUN-96 	BIKE SPEC 	54 	10 	PAID
+30-MAY-96 	BIKE SPEC 	10 	2 	PAID
+30-MAY-96 	BIKE SPEC 	23 	8 	PAID
+17-JAN-96 	BIKE SPEC 	76 	11 	PAID
+17-JAN-96 	LE SHOPPE 	76 	5 	PAID
+1-JUN-96 	LE SHOPPE 	10 	3 	PAID
+1-JUN-96 	AAA BIKE 	10 	1 	PAID
+1-JUN-96 	AAA BIKE 	76 	4 	PAID
+1-JUN-96 	AAA BIKE 	46 	14 	PAID
+11-JUL-96 	JACKS BIKE 	76 	14 	PAID
+
+    a.
+
+    SELECT * FROM ORDERS WHERE PARTNUM = SELECT PARTNUM FROM PART WHERE DESCRIPTION = 'TRUE WHEEL';
+
+	NO
+
+    b.
+
+    SELECT PARTNUM FROM ORDERS WHERE PARTNUM = (SELECT * FROM PART WHERE DESCRIPTION = 'LE SHOPPE'); 
+
+	NO
+
+    c.
+
+    SELECT NAME, PARTNUM FROM ORDERS WHERE EXISTS (SELECT * FROM ORDERS WHERE NAME = 'TRUE WHEEL');
+
+	YES
+
+Manipulating Data
+
+    What is wrong with the following statement?
+
+    DELETE COLLECTION;
+
+	missing FROM
+
+    What is wrong with the following statement?
+
+    INSERT INTO COLLECTION SELECT * FROM TABLE_2
+
+	INTO shouldn't be used
+
+    What is wrong with the following statement?
+
+    UPDATE COLLECTION ("HONUS WAGNER CARD", 25000, "FOUND IT");
+
+	UPDATE uses SET keyword with specific column names
+
+    What would happen if you issued the following statement?
+
+    DELETE * FROM COLLECTION;
+
+	Nothing
+
+    What would happen if you issued the following statement?
+
+    UPDATE COLLECTION SET WORTH = 555 SET REMARKS = 'UP FROM 525';
+
+	All values for WORTH will be 555, all REMARKS will be UP FROM 525	
+
+    Will the following SQL statement work?
+
+    INSERT INTO COLLECTION SET VALUES = 900 WHERE ITEM = 'STRING';
+
+	NO
+
+    Will the following SQL statement work?
+
+    UPDATE COLLECTION SET VALUES = 900 WHERE ITEM = 'STRING';
+
+	YES
+
+    Try inserting values with incorrect data types into a table. Note the errors and then insert values with correct data types into the same table.
+
+    Using your database system, try exporting a table (or an entire database) to some other format. Then import the data back into your database. Familiarize yourself with this capability. Also, export the tables to another database format if your DBMS supports this feature. Then use the other system to open these files and examine them.
+
+Creating and Maintaining Tables
+
+    True or False: The ALTER DATABASE statement is often used to modify an existing table's structure.
+
+	FALSE
+
+    True or False: The DROP TABLE command is functionally equivalent to the DELETE FROM
+    name> command.
+
+	FALSE
+
+    True or False: To add a new table to a database, use the CREATE TABLE command.
+
+	TRUE
+
+    What is wrong with the following statement?
+
+    CREATE TABLE new_table ( ID NUMBER, FIELD1 char(40), FIELD2 char(80), ID char(40);
+
+	missing closing ) and two columns with same name
+
+    What is wrong with the following statement?
+
+    ALTER DATABASE BILLS ( COMPANY char(80));
+
+	Should be ALTER TABLE to change a column attribute
+
+    When a table is created, who is the owner?
+
+	the user id that is signed in when the table is created
+
+    If data in a character column has varying lengths, what is the best choice for the data type?
+
+	VARCHAR2
+
+    Add two tables to the BILLS database named BANK and ACCOUNTTYPE using any format you like. The BANK table should contain information about the BANK field used in the BANKACCOUNTS table in the examples. The ACCOUNTTYPE table should contain information about the ACCOUNTTYPE field in the BANKACCOUNTS table also. Try to reduce the data as much as possible.
+
+    You should use the CREATE TABLE command to make the tables. Possible SQL statements would look like this:
+
+    CREATE TABLE BANK
+      ( ACCOUNT_ID    NUMBER(30)    NOT NULL,
+        BANK_NAME     VARCHAR2(30)  NOT NULL,
+        ST_ADDRESS    VARCHAR2(30)  NOT NULL,
+        CITY          VARCHAR2(15)  NOT NULL,
+        STATE         CHAR(2)       NOT NULL,
+        ZIP           NUMBER(5)     NOT NULL;
+
+     CREATE TABLE ACCOUNT_TYPE
+      ( ACCOUNT_ID   NUMBER(30)    NOT NULL,
+        SAVINGS      CHAR(30),
+        CHECKING     CHAR(30);
+
